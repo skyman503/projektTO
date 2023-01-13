@@ -1,7 +1,8 @@
 import unittest
 from unittest import TestCase
-from ..models import UrlModel
-from ..utils import BuiltInSecretStrategy, UrlBasedStrategy
+from ...models import UrlModel
+from ...utils import BuiltInSecretStrategy, UrlBasedStrategy
+
 
 class UrlModelTest(TestCase):
     def setUp(self):

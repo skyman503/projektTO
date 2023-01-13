@@ -40,8 +40,9 @@ class UrlOrderIterator(Iterator):
 
 
 class UrlCollection(Iterable):
-    def __init__(self) -> None:
-        with open('url.storage', mode='r', encoding='utf-8') as f:
+    def __init__(self, storage="url.storage") -> None:
+        self.storage_path = storage
+        with open(self.storage_path, mode='r', encoding='utf-8') as f:
             self._collection = [UrlModel(x.rstrip().split(" ")[0], x.rstrip().split(" ")[1]) for x in f.readlines()]
 
     def __iter__(self):
@@ -49,9 +50,19 @@ class UrlCollection(Iterable):
     
     def add_item(self, url_model):
         self._collection.append(url_model)
-        with open('url.storage', mode='a', encoding='utf-8') as f:
+        self.save_item(url_model)
+
+    def save_item(self, url_model):
+        with open(self.storage_path, mode='a', encoding='utf-8') as f:
             line = str(url_model.original_url) + " " + str(url_model.new_url) + "\n"
             f.write(line)
+            return line
+
+    # use for testing purposes only
+    def reload_data(self):
+        with open(self.storage_path, mode='r', encoding='utf-8') as f:
+            self._collection = [UrlModel(x.rstrip().split(" ")[0], x.rstrip().split(" ")[1]) for x in f.readlines()]
+
 
 
 UrlCollection = SingletonDecorator(UrlCollection)
