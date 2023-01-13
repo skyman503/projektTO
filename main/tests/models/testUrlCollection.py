@@ -11,15 +11,16 @@ class UrlCollectionTest(TestCase):
         self.url_collection = UrlCollection()
         self.url_collection.storage_path = TESTING_STORAGE_PATH
         self.url_collection.reload_data()
+    
+    def tearDown(self):
+        with open(TESTING_STORAGE_PATH, mode='w') as storage:
+            pass
 
     def test_add_item(self):
         self.url_collection.add_item(self.test_item)
         self.assertIn(self.test_item, self.url_collection)
     
     def test_save_item(self):
-        with open(TESTING_STORAGE_PATH, mode='w') as storage:
-            pass
-
         # act
         self.url_collection.add_item(self.test_item)
 

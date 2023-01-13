@@ -13,15 +13,16 @@ class ConnectTest(SimpleTestCase):
         self.url_collection = UrlCollection()
         self.url_collection.storage_path = TESTING_STORAGE_PATH
         self.url_collection.reload_data()
+    
+    def tearDown(self):
+        with open(TESTING_STORAGE_PATH, mode='w') as storage:
+            pass
 
-    def test_worng_url(self) :
+    def test_worng_url(self) :    
         response = self.client.get('/r/1', follow=True)
         self.assertRedirects(response=response, expected_url='/', status_code=302, target_status_code=200)
     
     def test_valid_url(self) :
-        with open(TESTING_STORAGE_PATH, mode='w') as storage:
-            pass
-
         self.url_collection.add_item(self.test_item)
 
         response = self.client.get('/r/11111', follow=True)
