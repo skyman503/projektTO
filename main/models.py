@@ -3,10 +3,11 @@ from .utils import SingletonDecorator, BuiltInSecretStrategy
 
 
 class UrlModel():
-    def __init__(self, original_url, new_url="", strategy=BuiltInSecretStrategy()) -> None:
+    def __init__(self, original_url, collection=None, new_url="", strategy=None) -> None:
         self.original_url = original_url
         self.new_url = new_url
-        self._strategy = strategy
+        self._strategy = strategy if strategy else BuiltInSecretStrategy()
+        self.collection = collection if collection else UrlCollection()
     
     def set_strategy(self, strategy):
         self._strategy = strategy
@@ -17,7 +18,7 @@ class UrlModel():
     def generate_new_url(self):
         while True:
             url = self._strategy.generate_hash(self.original_url)
-            if all(x.new_url != url for x in UrlCollection()):
+            if all(x.new_url != url for x in self.collection):
                 self.new_url = url
                 return
 

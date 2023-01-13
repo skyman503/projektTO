@@ -20,12 +20,12 @@ class SingletonDecorator:
 
 
 class LogManager:
-    def __init__(self) -> None:
-        pass
+    def __init__(self, state_manager=None) -> None:
+        self.state_manager = state_manager if state_manager else UrlResultState()
 
     def log(self, request, func_name):
         with open('logs.txt', mode='a', encoding='utf-8') as f:
-            line = str(datetime.now()) + ";" + request.method + ";" + request.build_absolute_uri() + ";" + func_name + ";" + str(UrlResultState().get_current_state()) + "\n"
+            line = str(datetime.now()) + ";" + request.method + ";" + request.build_absolute_uri() + ";" + func_name + ";" + str(self.state_manager.get_current_state()) + "\n"
             f.write(line)
 
 
