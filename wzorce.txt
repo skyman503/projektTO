@@ -1,0 +1,5 @@
+1. Singleton
+2. Dekorator
+3. Stan
+4. Strategia
+5. Iterator
