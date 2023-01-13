@@ -6,7 +6,7 @@ from ...utils import BuiltInSecretStrategy, UrlBasedStrategy
 
 class UrlModelTest(TestCase):
     def setUp(self):
-        self.url_model = UrlModel("https://www.google.com")
+        self.url_model = UrlModel("https://www.google.com/")
 
     def test_set_strategy(self):
         self.assertEquals(type(self.url_model.get_strategy()), BuiltInSecretStrategy)

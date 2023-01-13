@@ -51,4 +51,4 @@ def connect(request, new_url):
         if url_obj.new_url == new_url:
             return redirect(url_obj.original_url)
 
-    return redirect('main:index')
+    return redirect('index')

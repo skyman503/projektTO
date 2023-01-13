@@ -2,7 +2,7 @@ from unittest import TestCase
 from ...models import UrlCollection, UrlModel
 
 TESTING_STORAGE_PATH = 'test.storage'
-TESTING_URL = 'https://www.google.com'
+TESTING_URL = 'https://www.google.com/'
 TESTING_NEW_URL = "11111"
 
 class UrlCollectionTest(TestCase):
