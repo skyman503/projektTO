@@ -20,16 +20,34 @@ class SingletonDecorator:
 
 
 class LogManager:
-    def __init__(self, state_manager=None) -> None:
+    def __init__(self, state_manager=None, file_manager = None, currentTimeFunc = None) -> None:
         self.state_manager = state_manager if state_manager else UrlResultState()
+        self.file_manager = file_manager if file_manager else FileManager('logs.txt','a')
+        self.currentTimeFunc = currentTimeFunc if currentTimeFunc else datetime.now
 
     def log(self, request, func_name):
-        with open('logs.txt', mode='a', encoding='utf-8') as f:
-            line = str(datetime.now()) + ";" + request.method + ";" + request.build_absolute_uri() + ";" + func_name + ";" + str(self.state_manager.get_current_state()) + "\n"
+        if self._validate_request(request):
+            line = str(self.currentTimeFunc()) + ";" + request.method + ";" + request.build_absolute_uri() + ";" + func_name + ";" + str(self.state_manager.get_current_state()) + "\n"
+            self.file_manager.write(line)
+    
+    def _validate_request(self,request):
+        try:
+            return request.method!=None and request.build_absolute_uri()!=None
+        except:
+            raise ValueError("request is not valid")
+
+
+class FileManager:
+
+    def __init__(self, path, mode, encoding='utf-8') -> None:
+        self.file_path = path
+        self.mode = mode
+        self.encoding = encoding
+
+    def write(self,line):
+        with open(self.file_path, mode=self.mode, encoding=self.encoding) as f:
             f.write(line)
 
-
-LogManager = SingletonDecorator(LogManager)
 
 
 # dekorator

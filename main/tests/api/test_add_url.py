@@ -46,11 +46,10 @@ class AddUrlTest(SimpleTestCase):
         # load data from the disk file
         with open(TESTING_STORAGE_PATH, mode='r') as storage:
             storage_content = [x.rstrip().split(' ') for x in storage.readlines()]
-            self.assertEquals(1, len(storage_content))
-            self.assertEquals(TESTING_URL, storage_content[0][0])
+            self.assertEquals(0, len(storage_content))
             self.assertEquals(UrlResultState().get_current_state(), UrlResult.WRONG_URL)
 
-            generated_url = str(home_url) + 'r/' + storage_content[0][1]
+            generated_url = ""
             self.assertJSONEqual(str(response.content, encoding='utf8'), {
                 'msg': UrlResultState().get_current_state().value["msg"],
                 'valid': UrlResultState().get_current_state().value["valid"],
